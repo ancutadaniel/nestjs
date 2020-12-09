@@ -12,4 +12,16 @@ export class CatsService {
   findAll(): Cat[] {
     return this.cats;
   }
+
+  findOne(id: number) {
+    return Promise.resolve(undefined);
+  }
+
+  findQuery(id: number) {
+    return Promise.resolve(undefined);
+  }
+
+  findUuid(uuid: string) {
+    return Promise.resolve(undefined);
+  }
 }
