@@ -13,6 +13,10 @@ export class CatsService {
     return this.cats;
   }
 
+  findSecond(): Cat[] {
+    return this.cats;
+  }
+
   findOne(id: number) {
     return Promise.resolve(undefined);
   }

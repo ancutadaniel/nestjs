@@ -7,7 +7,7 @@ import {
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './components/cats/cats.module';
-import { logger } from './components/logger.middleware';
+import { logger } from './components/cats/helpers/logger.middleware';
 import { CatsController } from './components/cats/cats.controller';
 
 @Module({
