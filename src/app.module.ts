@@ -9,9 +9,10 @@ import { AppService } from './app.service';
 import { CatsModule } from './components/cats/cats.module';
 import { logger } from './components/cats/helpers/logger.middleware';
 import { CatsController } from './components/cats/cats.controller';
+import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [CatsModule],
+  imports: [ConfigModule.forRoot({ folder: './config' }), CatsModule],
   controllers: [AppController],
   providers: [AppService],
 })

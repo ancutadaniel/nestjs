@@ -25,7 +25,7 @@ import { Cat } from './cat.interface';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { JoiValidationPipe } from './pipes/joi.validation.pipe';
 import { ValidationPipe } from './pipes/validation.pipe';
-import { RolesGuard } from './auth/roles.guard';
+import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
