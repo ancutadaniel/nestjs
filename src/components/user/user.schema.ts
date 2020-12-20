@@ -1,9 +1,9 @@
 import { EntitySchema } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
-export const UserSchema = new EntitySchema<User>({
+export const UserSchema = new EntitySchema<UserEntity>({
   name: 'User',
-  target: User,
+  target: UserEntity,
   columns: {
     id: {
       type: Number,
