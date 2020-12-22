@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ObjectId } from 'mongodb';
 
-export class CreateUserDto {
+export class UserDto {
   @ApiProperty({ readOnly: true, required: false, example: new ObjectId() })
   id?: ObjectId;
 
@@ -40,4 +40,12 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   lastName: string;
+
+  @ApiProperty()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  password: string;
 }

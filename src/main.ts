@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -24,10 +25,10 @@ async function bootstrap() {
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
 
-  await app.listen(3000);
+  app.useGlobalPipes(new ValidationPipe());
 
+  await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
-  console.log(configServices);
 }
 
 bootstrap();

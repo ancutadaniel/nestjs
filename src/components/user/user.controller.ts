@@ -1,14 +1,30 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  CACHE_MANAGER,
+  CacheInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Post,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { User } from '../../schemas/user.schema';
+import { UserEntity } from './user.entity';
 import { UsersService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/create-user.dto';
 
 @Controller('users')
+@UseInterceptors()
 export class UsersController {
   constructor(private readonly usersServices: UsersService) {}
 
   @Post()
-  async create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: UserDto) {
     await this.usersServices.create(createUserDto);
   }
 
@@ -26,10 +42,10 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(
+  async remove(
     @Param('id', new ParseIntPipe())
     id
   ) {
-    return this.usersServices.remove(id);
+    await this.usersServices.remove(id);
   }
 }
