@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Observable } from 'rxjs';
 import { Cat, CatDocument } from '../../schemas/cat.schema';
 import { CatsDto } from './dto/cats.dto';
 
 @Injectable()
 export class CatsService {
+  private httpService: any;
   constructor(
     @InjectModel(Cat.name)
-    private readonly catModel: Model<CatDocument>
+    private readonly catModel: Model<CatDocument>,
+    httpService: HttpService
   ) {}
 
   async create(catsCatDto: CatsDto): Promise<Cat> {
@@ -19,6 +22,10 @@ export class CatsService {
   findAll(): Promise<Cat[]> {
     return this.catModel.find().exec();
   }
+
+  // findAll(): Observable<AxiosResponse<Cat[]>> {
+  //   return this.httpService.get('http://localhost:3000/cats');
+  // }
 
   findSecond() {
     return this.catModel.find();

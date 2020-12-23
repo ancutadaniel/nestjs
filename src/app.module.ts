@@ -1,4 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { CacheModule, HttpModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,7 +8,10 @@ import { CatsModule } from './components/cats/cats.module';
 import { UserEntity } from './components/user/user.entity';
 import { UserModule } from './components/user/user.module';
 import { ConfigModule } from './config/config.module';
+import { CookiesController } from './cookie.controller';
 import { TasksModule } from './task/task.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -34,9 +37,11 @@ import { TasksModule } from './task/task.module';
     }),
     CacheModule.register(),
     ScheduleModule.forRoot(),
-    TasksModule,
+    AuthModule,
+    UsersModule,
+    // TasksModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, CookiesController],
   providers: [AppService],
 })
 export class AppModule {

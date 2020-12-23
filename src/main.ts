@@ -1,9 +1,11 @@
 import { ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import * as session from 'express-session';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AllExceptionFilter } from './components/cats/filters/all-exception.filter';
 import { ConfigService } from './config/config.service';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -26,6 +28,14 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
 
   app.useGlobalPipes(new ValidationPipe());
+  app.use(cookieParser());
+  app.use(
+    session({
+      secret: 'my-secret',
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 
   await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
