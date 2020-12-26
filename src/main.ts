@@ -1,11 +1,13 @@
 import { ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
+import * as helmet from 'helmet';
+import * as rateLimit from 'express-rate-limit';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AllExceptionFilter } from './components/cats/filters/all-exception.filter';
 import { ConfigService } from './config/config.service';
-import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -25,8 +27,15 @@ async function bootstrap() {
   SwaggerModule.setup('spec', app, document);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
+  app.use(helmet());
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // limit each IP to 100 requests per windowMs
+    })
+  );
 
+  app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.use(
@@ -36,6 +45,7 @@ async function bootstrap() {
       saveUninitialized: true,
     })
   );
+  app.enableCors();
 
   await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);

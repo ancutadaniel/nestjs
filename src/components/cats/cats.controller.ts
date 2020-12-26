@@ -11,6 +11,7 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
+import { Role } from '../../enums/role.enum';
 import { Cat } from '../../schemas/cat.schema';
 
 import { CatsService } from './cats.service';
@@ -52,8 +53,8 @@ export class CatsController {
   }
 
   @Post()
-  @Roles('admin')
-  // @SetMetadata('roles', ['admin'])
+  @Roles(Role.Admin)
+  // @SetMetadata('enums', ['admin'])
   // @UseFilters(HttpExceptionFilter)
   // @UsePipes(new JoiValidationPipe(createCatSchema))
   async create(@Body(new ValidationPipe()) catsDto: CatsDto) {
